@@ -8,7 +8,12 @@ mongo = PyMongo(app)
 
 
 @app.route('/')
-def hello_world():  # put application's code here
+def home():
+    return
+
+
+@app.route('/residential')
+def find_residential():  # put application's code here
     test = mongo.db.acs.find_one({"name": "Residential"})
     print(test)
     return dumps(test)
