@@ -1,6 +1,6 @@
 import flask
 from bson import json_util
-from flask import Flask
+from flask import Flask, send_file
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
 from flask_cors import CORS
@@ -14,7 +14,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def home():
-    return
+    return send_file('./public/iPad, Nexus 9 – 9.png', attachment_filename='python.jpg')
 
 
 @app.route('/residential', methods=['GET'])
@@ -36,6 +36,14 @@ def find_commercial():  # put application's code here
 @app.route('/healthcare', methods=['GET'])
 def find_health_care():  # put application's code here
     test = mongo.db.acs.find_one({"name": "Health Care"})
+    response = flask.jsonify(parse_json(test))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+@app.route('/germany', methods=['GET'])
+def find_germany():
+    test = mongo.db.germanies.find()
     response = flask.jsonify(parse_json(test))
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
