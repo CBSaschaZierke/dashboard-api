@@ -2,14 +2,17 @@ import flask
 from bson import json_util
 from flask import Flask, send_file
 from flask_pymongo import PyMongo
-from bson.json_util import dumps
 from flask_cors import CORS
 import json
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/test"
+app.config["MONGO_URI"] = "mongodb://194.163.147.192:27017/test"
 CORS(app)
 mongo = PyMongo(app)
+
+
+def parse_json(data):
+    return json.loads(json_util.dumps(data))
 
 
 @app.route('/')
@@ -43,16 +46,12 @@ def find_health_care():  # put application's code here
 
 @app.route('/germany', methods=['GET'])
 def find_germany():
-    test = mongo.db.germanies.find()
+    test = mongo.db.germanies.find_one()
     response = flask.jsonify(parse_json(test))
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
-
-
-def parse_json(data):
-    return json.loads(json_util.dumps(data))
+    app.debug = False
+    app.run(host="0.0.0.0")
