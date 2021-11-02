@@ -17,7 +17,7 @@ def parse_json(data):
 
 @app.route('/')
 def home():
-    return send_file('./public/iPad, Nexus 9 – 9.png', attachment_filename='python.jpg')
+    return 'Hello'
 
 
 @app.route('/residential', methods=['GET'])
