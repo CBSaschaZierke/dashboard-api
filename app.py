@@ -7,6 +7,7 @@ import json
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://194.163.147.192:27017/test"
+# app.config["MONGO_URI"] = "mongodb://127.0.0.1:27017/test"
 CORS(app)
 mongo = PyMongo(app)
 
