@@ -6,8 +6,8 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://194.163.147.192:27017/test"
-# app.config["MONGO_URI"] = "mongodb://127.0.0.1:27017/test"
+# app.config["MONGO_URI"] = "mongodb://194.163.147.192:27017/test"
+app.config["MONGO_URI"] = "mongodb://192.168.178.28:27017/test"
 CORS(app)
 mongo = PyMongo(app)
 
@@ -53,6 +53,22 @@ def find_germany():
     return response
 
 
+@app.route('/germany/objects', methods=['GET'])
+def find_germany_objects():
+    test = mongo.db.germanies.find_one()
+    response = flask.jsonify(parse_json(test['objects']))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+@app.route('/germany/states', methods=['GET'])
+def find_germany_states():
+    db_data = mongo.db.germanies.find_one()
+    response = flask.jsonify(parse_json(db_data['state']))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
 if __name__ == '__main__':
-    app.debug = False
-    app.run(host="0.0.0.0")
+    app.debug = True
+    app.run(host="0.0.0.0", debug=True)
